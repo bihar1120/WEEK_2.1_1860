@@ -1,51 +1,54 @@
-
-function Sys.min 0 // 2 values can be taken
-    push argument 0 //get the value x
-    push argument 1 //get the value y
-    lt //cmpare which is less than 
-    if-goto MIN_A //if x<y jump to min_A and print arg0
-    push argument 1 //if the x>y push argument 1 
+// Sys.min function: Returns the minimum of two values.
+function Sys.min 0
+    push argument 0       // Push the first argument (x)
+    push argument 1       // Push the second argument (y)
+    lt                    // Compare if x < y
+    if-goto MIN_A         // If x < y, jump to MIN_A and return x
+    push argument 1       // Otherwise, push y to the stack
     return
 label MIN_A
-    push argument 0
-    retur
+    push argument 0       // Return x if x < y
+    return
+
+
+// Sys.max function: Returns the maximum of two values.
 function Sys.max 0
-
-    push argument 0 //get the value x 
-    push argument 1 //get the value y 
-    gt // compare which is greater than who 
-
-    if-goto MAX_A
-    push argument 1
+    push argument 0       // Push the first argument (x)
+    push argument 1       // Push the second argument (y)
+    gt                    // Compare if x > y
+    if-goto MAX_A         // If x > y, jump to MAX_A and return x
+    push argument 1       // Otherwise, push y to the stack
+    return
+label MAX_A
+    push argument 0       // Return x if x > y
     return
 
-label MAX_A 
-    push argument 0
-    return
 
-function Sys.range 
+// Sys.range function: Returns the range (difference between max and min) of two values.
+function Sys.range 0
+    push argument 0       // Push the first argument (start)
+    push argument 1       // Push the second argument (end)
+    lt                    // Compare if start < end
+    if-goto RETURN_ZERO   // If start < end, jump to RETURN_ZERO (range is 0)
+    
+    // Get the minimum value of the two arguments
     push argument 0
     push argument 1
-    lt
-    if-goto RETURN_ZERO //
-    push argument 0
-    push argument 1 //no. of elements in an array
-    call Sys.min 2 //pop the result minimum value
+    call Sys.min 2        // Call Sys.min and store the result in local 0
     pop local 0
 
+    // Get the maximum value of the two arguments
     push argument 0
     push argument 1
-    call Sys.max 2
-    pop local 1 
+    call Sys.max 2        // Call Sys.max and store the result in local 1
+    pop local 1
 
-    push local 1
-    push local 0
-    sub 
+    // Calculate the range: max - min
+    push local 1          // Push the maximum value
+    push local 0          // Push the minimum value
+    sub                    // Subtract min from max to get the range
     return
 
-  
 label RETURN_ZERO
-    push constant 0
-    return      
-
-  
+    push constant 0       // If start < end, return 0 as range
+    return
